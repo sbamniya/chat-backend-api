@@ -62,7 +62,7 @@ const startNewConversation = async (
 
   const conversation = await prisma.conversation.create({
     data: {
-      participantIds: input.receiverIds,
+      participantIds: [...input.receiverIds, senderId],
       startedBy: senderId,
     },
   });
@@ -114,11 +114,10 @@ const getMessageByConversation = async (
       },
     },
     orderBy: {
-      createdAt: "desc",
+      createdAt: "asc",
     },
   });
 
-  console.log(messages[0]?.receivers);
   return messages;
 };
 

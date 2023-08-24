@@ -1,7 +1,9 @@
-import { IncomingMessage, Server, ServerResponse } from "http";
-import { Socket, Server as SocketServer } from "socket.io";
-import { createClient } from "redis";
 import { createAdapter } from "@socket.io/redis-adapter";
+import { IncomingMessage, Server, ServerResponse } from "http";
+import { createClient } from "redis";
+import { Socket, Server as SocketServer } from "socket.io";
+import prisma from "../utils/prisma";
+import validateConnection from "./validate";
 
 const init = async (
   server: Server<typeof IncomingMessage, typeof ServerResponse>
@@ -36,16 +38,42 @@ const init = async (
 
   io.adapter(createAdapter(pubClient, subClient));
 
-  io.on("connection", (socket: Socket) => {
-    console.log("User connected:", socket.id, socket.handshake.query.userId);
-    socket.emit("joined", {});
+  io.use(validateConnection);
 
-    socket.on("message", (...arg) => {
-      console.log("message", arg);
+  io.on("connection", (socket: Socket) => {
+    const userId: string = String(socket.handshake.query.userId);
+    const conversationId: string = String(
+      socket.handshake.query.conversationId
+    );
+
+    console.log("User connected:", socket.id, userId, conversationId);
+
+    socket.join(conversationId);
+
+    socket.on("message", async ({ message }) => {
+      const newMessage = await prisma.message.create({
+        data: {
+          message,
+          conversationId,
+          senderId: userId,
+        },
+        include: {
+          sender: {
+            select: {
+              id: true,
+              username: true,
+            },
+          },
+        },
+      });
+
+      io.to(conversationId).emit("newMessage", newMessage);
+      // socket.emit("newMessage", newMessage);
     });
 
     socket.on("disconnect", () => {
       console.log("User disconnected:", socket.id);
+      socket.leave(conversationId);
     });
   });
 

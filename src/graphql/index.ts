@@ -28,7 +28,7 @@ export const schema = createSchema({
 
 async function seedUser() {
   const username = "username";
-
+  
   const existingUser = await prisma.user.findFirst({
     where: {
       username,
