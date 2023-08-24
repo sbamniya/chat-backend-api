@@ -37,7 +37,6 @@ SocketConnection.init(server)
       cors: {
         origin: "*",
       },
-      healthCheckEndpoint: "/live",
       graphqlEndpoint: "/graphql",
       plugins: [
         useJWT({

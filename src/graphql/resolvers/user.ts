@@ -1,7 +1,7 @@
 import { compareSync } from "bcrypt";
 import jwt from "jsonwebtoken";
-import prisma from "../utils/prisma";
-import validateRequest from "../utils/validation";
+import prisma from "../../utils/prisma";
+import validateRequest from "../../utils/validation";
 import { LoginDTO } from "./user.dto";
 import { GraphQLError } from "graphql";
 

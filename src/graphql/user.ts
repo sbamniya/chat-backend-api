@@ -1,4 +1,4 @@
-import UserController from "../controller/user";
+import UserController from "./resolvers/user";
 import { Pageable } from "../types/page";
 import prisma from "../utils/prisma";
 import { validateJWT } from "../utils/validation";

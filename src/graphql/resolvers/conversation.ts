@@ -1,6 +1,6 @@
-import { Pageable } from "../types/page";
-import prisma from "../utils/prisma";
-import validateRequest, { validateJWT } from "../utils/validation";
+import { Pageable } from "../../types/page";
+import prisma from "../../utils/prisma";
+import validateRequest, { validateJWT } from "../../utils/validation";
 import { CreateConversationDTO } from "./conversation.dto";
 
 const getAllConversation = async (
@@ -34,10 +34,13 @@ const startNewConversation = async (
       message: input.message,
       senderId,
       conversationId: conversation.id,
-      receivers: input.receiverIds.map((id) => ({ id, read: false })),
+      receivers: input.receiverIds.map((id) => ({
+        id,
+        read: false,
+      })),
     },
   });
-  
+
   return conversation;
 };
 

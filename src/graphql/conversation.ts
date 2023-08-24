@@ -1,4 +1,4 @@
-import ConversationController from "../controller/conversation";
+import ConversationController from "./resolvers/conversation";
 
 export const ConversationTypeDef = `
   scalar Date
