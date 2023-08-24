@@ -1,4 +1,4 @@
-# Chat App UI
+# Chat App Backend API
 
 Node + Express + TypeScript application.
 
