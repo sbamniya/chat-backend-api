@@ -4,21 +4,34 @@ export const ConversationTypeDef = `
   scalar Date
   scalar JSON
 
-  type Conversation {
+  type MessageSender {
+    id: String!
+    username: String!
+  }
+  
+  type ConversationMessage {
     id: String!
     message: String!
+    sender: MessageSender!
+    createdAt: Date!
+  }
+  type Conversation {
+    id: String!
+    messages: [ConversationMessage!]!
     startedBy: String!
     createdAt: Date!
     starter: User
     receivers: JSON
+    participantIds: [String!]
   }
 
   type Query {
-    allConversations: [Conversation!]!
+    allConversations(page: Int, limit: Int): [Conversation!]!
+    messages(page: Int, limit: Int, id: String!): [ConversationMessage!]!
   }
 
   input ConversationInput {
-    message: String!
+    message: String
     receiverIds: [String!]!
   }
 
@@ -29,6 +42,7 @@ export const ConversationTypeDef = `
 
 export const ConversationQueries = {
   allConversations: ConversationController.getAllConversation,
+  messages: ConversationController.getMessageByConversation,
 };
 
 export const ConversationMutation = {

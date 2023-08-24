@@ -1,7 +1,4 @@
 import UserController from "./resolvers/user";
-import { Pageable } from "../types/page";
-import prisma from "../utils/prisma";
-import { validateJWT } from "../utils/validation";
 
 export const UserTypeDef = `
   type User {
@@ -11,26 +8,25 @@ export const UserTypeDef = `
   }
 
   type Query {
-    allUsers(page: Int, limit: Int): [User!]!
+    allUsers(page: Int, limit: Int, ids: [String]): [User!]!
   }
 
-  type LoginResponse {
+  type AuthResponse {
     token: String!
     user: User
   }
 
   type Mutation {
-    login(username: String!, password: String!): LoginResponse  
+    login(username: String!, password: String!): AuthResponse  
+    signup(username: String!, password: String!): AuthResponse  
   }
 `;
 
 export const UserQueries = {
-  allUsers: (_: number, { page = 1, limit = 10 }: Pageable, ctx: any) => {
-    validateJWT(ctx);
-    return prisma.user.findMany();
-  },
+  allUsers: UserController.getAllUsers,
 };
 
 export const UserMutation = {
   login: UserController.login,
+  signup: UserController.signup,
 };

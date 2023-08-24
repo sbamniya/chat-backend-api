@@ -1,5 +1,5 @@
 import { IncomingMessage, Server, ServerResponse } from "http";
-import { Server as SocketServer } from "socket.io";
+import { Socket, Server as SocketServer } from "socket.io";
 import { createClient } from "redis";
 import { createAdapter } from "@socket.io/redis-adapter";
 
@@ -36,8 +36,14 @@ const init = async (
 
   io.adapter(createAdapter(pubClient, subClient));
 
-  io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
+  io.on("connection", (socket: Socket) => {
+    console.log("User connected:", socket.id, socket.handshake.query.userId);
+    socket.emit("joined", {});
+
+    socket.on("message", (...arg) => {
+      console.log("message", arg);
+    });
+
     socket.on("disconnect", () => {
       console.log("User disconnected:", socket.id);
     });

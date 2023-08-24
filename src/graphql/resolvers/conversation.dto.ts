@@ -1,8 +1,14 @@
-import { ArrayMinSize, IsArray, IsNotEmpty, IsString } from "class-validator";
+import {
+  ArrayMinSize,
+  IsArray,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from "class-validator";
 
 export class CreateConversationDTO {
-  @IsNotEmpty()
   @IsString()
+  @IsOptional()
   message: string;
 
   @IsArray()

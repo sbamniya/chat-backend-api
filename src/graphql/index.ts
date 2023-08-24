@@ -15,7 +15,7 @@ const resolvers = {
   },
   Mutation: {
     ...ConversationMutation,
-    ...UserMutation
+    ...UserMutation,
   },
 };
 
