@@ -35,6 +35,38 @@ pnpm i
 pnpm run dev
 ```
 
+### Migrate Prisma
+
+```sh
+pnpm run prisma:migrate:dev
+```
+
+### Generate Prisma Schema
+
+```sh
+pnpm run prisma:generate
+```
+
+## Other prisma commands
+
+if you want to run any other command then the two mentioned with prisma, you don't need prisma installed globally. You can do it following way.
+
+```sh
+pnpm run prisma -- generate
+```
+
+```sh
+pnpm run prisma -- migrate
+```
+
+```sh
+pnpm run prisma -- migrate
+```
+
+```sh
+pnpm run prisma -- deploy
+```
+
 ### Build production
 
 ```sh
