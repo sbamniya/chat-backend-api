@@ -21,7 +21,6 @@ export const ConversationTypeDef = `
     startedBy: String!
     createdAt: Date!
     starter: User
-    receivers: JSON
     participantIds: [String!]
   }
 

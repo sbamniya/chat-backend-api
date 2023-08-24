@@ -71,10 +71,6 @@ const startNewConversation = async (
       message: input.message,
       senderId,
       conversationId: conversation.id,
-      receivers: input.receiverIds.map((id) => ({
-        id,
-        read: false,
-      })),
     },
   });
 
